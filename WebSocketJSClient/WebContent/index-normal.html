@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+
+<style>
+#log {
+	border-top: 1px solid #000;
+}
+
+#log div {
+	border-bottom: 1px solid #000;
+}
+</style>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+
+<script type="text/javascript">
+var start = performance.now();
+
+$(document).ready(function(){
+	var end = performance.now();
+	console.log("time = " + (end - start));
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="testFiles/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="testFiles/bootstrap-theme.min.css" />
+<link rel="stylesheet" type="text/css" href="testFiles/autoFill.bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="testFiles/buttons.bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="testFiles/colReorder.bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="testFiles/fixedColumns.bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="testFiles/fixedHeader.bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="testFiles/keyTable.bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="testFiles/responsive.bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="testFiles/rowGroup.bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="testFiles/rowReorder.bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="testFiles/scroller.bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="testFiles/select.bootstrap.min.css" />
+
+<script type="text/javascript" src="testFiles/bootstrap.min.js"></script>
+<script type="text/javascript" src="testFiles/underscore-min.js"></script>
+<script type="text/javascript" src="testFiles/underscore.string.min.js"></script>
+<script type="text/javascript" src="testFiles/angular.min.js"></script>
+<script type="text/javascript" src="testFiles/Instructions.js"></script>
+<script type="text/javascript" src="testFiles/Assembler.js"></script>
+<script type="text/javascript" src="testFiles/Compiler.js"></script>
+<script type="text/javascript" src="testFiles/app.js"></script>
+<script type="text/javascript" src="testFiles/angular-ui-router.min.js"></script>
+
+<script type="text/javascript" src="testFiles/jquery.dataTables.min.js"></script>
+
+<!-- <script type="text/javascript" src="testFiles/jszip.min.js"></script>
+<script type="text/javascript" src="testFiles/pdfmake.min.js"></script>
+<script type="text/javascript" src="testFiles/vfs_fonts.js"></script> -->
+
+<script type="text/javascript" src="testFiles/dataTables.autoFill.min.js"></script>
+<script type="text/javascript" src="testFiles/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="testFiles/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="testFiles/dataTables.colReorder.min.js"></script>
+<script type="text/javascript" src="testFiles/dataTables.fixedColumns.min.js"></script>
+<script type="text/javascript" src="testFiles/dataTables.fixedHeader.min.js"></script>
+<script type="text/javascript" src="testFiles/dataTables.keyTable.min.js"></script>
+<script type="text/javascript" src="testFiles/dataTables.responsive.min.js"></script>
+<script type="text/javascript" src="testFiles/dataTables.rowGroup.min.js"></script>
+<script type="text/javascript" src="testFiles/dataTables.rowReorder.min.js"></script>
+<script type="text/javascript" src="testFiles/dataTables.scroller.min.js"></script>
+<script type="text/javascript" src="testFiles/dataTables.select.min.js"></script>
+
+<script type="text/javascript" src="testFiles/autoFill.bootstrap.min.js"></script>
+<script type="text/javascript" src="testFiles/buttons.bootstrap.min.js"></script>
+<script type="text/javascript" src="testFiles/responsive.bootstrap.min.js"></script>
+
+
+
+</head>
+<body>
+<textarea rows="10" cols="120" id="message"></textarea>
+<input type="button" id="send" class="btn btn-primary" value="Send" />
+<input type="button" id="close" class="btn btn-warning" value="Close Connection" />
+
+<br />
+<br />
+<div id="log"></div>
+
+</body>
+</html>

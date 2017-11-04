@@ -1,0 +1,123 @@
+package websocket.test;
+
+import websocket.server.connection.IClientHandler;
+import websocket.server.connection.WebSocketServer;
+
+import com.google.gson.Gson;
+
+public class CopyOfTestServer implements IClientHandler {
+	
+	private Gson gson;
+	
+	public static void main(String[] args) {
+		CopyOfTestServer server = new CopyOfTestServer();
+		
+		WebSocketServer wsServer = new WebSocketServer(server, 9001);
+		wsServer.open();
+	}
+	
+	private CopyOfTestServer() {
+		gson = new Gson();
+	}
+	
+	@Override
+	public void onOpen(long sessionId) {
+		// TODO Auto-generated method stub
+		System.out.println("A connection has been opened! " + sessionId);
+	}
+
+	@Override
+	public void onClose(long sessionId) {
+		// TODO Auto-generated method stub
+		System.out.println("A connection has been closed! " + sessionId);
+	}
+
+	@Override
+	public void onTextMessage(long sessionId, String data) {
+		/*// TODO Auto-generated method stub
+		String json = data.toString();
+		ClientMessage msg;
+		try {
+			msg = gson.fromJson(json, ClientMessage.class);
+		}catch(JsonSyntaxException e){
+			System.err.println("Unrecongized message");
+			return;
+		}
+		
+		switch(msg.command.toLowerCase()){
+		case "navigate":
+			loadPage(msg);
+			break;
+		default:
+			System.out.println("Unrecognized command " + msg.command);
+		}*/
+	}
+
+	@Override
+	public void onBinaryMessage(long sessionId, byte[] data) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPing(long sessionId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/*private void loadPage(ClientMessage msg){
+		String url = msg.data;
+		try {
+			if(!url.startsWith("http")){
+				if(url.charAt(0) == '/')
+					url = url.substring(1);			
+				url = "http://localhost/" + url;
+			}
+			
+			URL obj = new URL(url);
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			con.setRequestMethod("GET");
+			con.setRequestProperty("Cookie", msg.cookies);
+			
+			int responseCode = con.getResponseCode();
+			if(responseCode < 400){
+				//System.out.println("\nSending 'GET' request to URL : " + url);
+				//System.out.println("Response Code : " + responseCode);
+				
+				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+				
+				ServerApplicationPayloadData pd = new ServerApplicationPayloadData();
+				
+				//System.out.println("reading inputstream");
+				char[] read = new char[PayloadBlock.BLOCK_SIZE / 2];
+				int charsRead = in.read(read);
+				
+				do{
+					//System.out.println("read = " + charsRead);
+					pd.add(new PayloadBlock(read));
+					//System.out.println("read: " + new String(read));
+					
+					read = new char[PayloadBlock.BLOCK_SIZE / 2];		
+					charsRead = 0;
+				}while((charsRead = in.read(read)) > 0 && in.ready());
+				
+				//System.out.println("final read = " + charsRead);
+				if(charsRead > 0){
+					pd.add(new PayloadBlock(read));
+				}
+				
+				in.close();
+				
+				ServerFrame sf = new ServerFrame(true, OpCodes.TEXT_FRAME, pd, null);
+				sf.send(clientOutput);
+			}else{
+				System.out.println("Response Code: " + responseCode);
+			}
+			
+			con.disconnect();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}*/
+}
