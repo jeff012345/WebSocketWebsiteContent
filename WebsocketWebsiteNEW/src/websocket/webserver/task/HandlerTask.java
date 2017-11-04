@@ -1,12 +1,7 @@
 package websocket.webserver.task;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.concurrent.Semaphore;
-import java.util.zip.DeflaterInputStream;
-
-import org.apache.commons.io.IOUtils;
 
 import com.google.gson.Gson;
 
@@ -91,35 +86,7 @@ public class HandlerTask implements Runnable {
 		
 		String response = gson.toJson(serverResponse);
 		if(response.length() > 0){
-			//this.webSocketServer.sendTextToClient(this.taskData.sessionId, response);
-			
-			//byte[] bytes = response.getBytes();
-			
-			/*
-			Deflater compresser = new Deflater();
-			compresser.setInput(bytes);
-			compresser.finish();
-			byte[] output = new byte[50];
-			//int compressedDataLength = compresser.deflate(output);
-		    //compresser.end();
-		    */
-			
-			/*DeflaterInputStream dis = new DeflaterInputStream(fis);
-			response.content = Base64.getEncoder().encodeToString(IOUtils.toByteArray(dis));
-			dis.close();*/
-			
-			InputStream is = IOUtils.toInputStream(response, Charset.forName("UTF-8"));
-			DeflaterInputStream dis = new DeflaterInputStream(is);
-			byte[] data;
-			try {
-				data = IOUtils.toByteArray(dis);
-				dis.close();
-				LOG.log("Sending binary message with length " + data.length);
-				this.webSocketServer.sendBinaryToClient(this.taskData.sessionId, data);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
+			this.webSocketServer.sendBinaryToClient(this.taskData.sessionId, response.getBytes(Charset.forName("UTF-8")));
 		}
 	}
 	
