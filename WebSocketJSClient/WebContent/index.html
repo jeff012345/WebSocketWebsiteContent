@@ -137,7 +137,7 @@ var start = performance.now();
 					//script.innerHTML = atob(content);
 					//body.appendChild(script);
 					try{
-						eval(atob(content));
+						eval.call(window, atob(content));
 					}catch(e){
 						console.error(e);
 					}
@@ -239,83 +239,77 @@ function startLoad(){
 		console.log("time = " + (end - start));
 	};
 	
-	/* var uuid1 = wsc.loadJs("jquery-ui.min.js", []);
+	/* wsc.loadCss("bootstrap-theme.min.css");
+	wsc.loadCss("datatables-allplugins.min.css");
+	wsc.loadCss("jquery-ui.min.css");
+	wsc.loadCss("select.bootstrap.min.css");
+	wsc.loadCss("960.min.css");
+	wsc.loadCss("aegis.min.css");
+	wsc.loadCss("16pixels.min.css");
+	wsc.loadCss("angular-motion.min.css");
+	wsc.loadCss("animate.min.css");
+	wsc.loadCss("aurora-grid.min.css");
+	wsc.loadCss("ember-charts.min.css");
+	wsc.loadCss("equalize.min.css");
+	wsc.loadCss("flexboxgrid.min.css");
+	wsc.loadCss("flex-layout-attribute.min.css");
+	wsc.loadCss("flexslider.min.css");
+	wsc.loadCss("foundation-emails.min.css");
+	wsc.loadCss("font-mfizz.min.css");
+	wsc.loadCss("furtive.min.css");
+	wsc.loadCss("gemma.min.css");
+	wsc.loadCss("godlike.min.css");
+	wsc.loadCss("gridforms.min.css");
+	wsc.loadCss("hack.css");
+	wsc.loadCss("hamburgers.min.css");
+	wsc.loadCss("jquery-ui.min.css");
+	wsc.loadCss("select.bootstrap.min.css"); */
+	
+	
+	// medium JS
+	var uuid1 = wsc.loadJs("bootstrap.min.js")
+	var uuid30 = wsc.loadJs("jquery.dataTables.min.js", [ ]);
+	var uuid2 = wsc.loadJs("underscore-min.js", [ ]);
+	var uuid4 = wsc.loadJs("dataTables.buttons.min.js", [ uuid30 ]);
+	var uuid5 = wsc.loadJs("dataTables.fixedColumns.min.js", [ uuid30 ]);
+	/* var uuid6 = wsc.loadJs("ef.min.js", [ ]);
+	var uuid7 = wsc.loadJs("evaporate.min.js", [ ]);
+	var uuid9 = wsc.loadJs("dropzone.min.js", [ ]); 
+	var uuid10 = wsc.loadJs("jsmediatags.min.js", [ ]); 
+	var uuid13 = wsc.loadJs("alt.min.js", [ ]); 
+	var uuid16 = wsc.loadJs("xdomain.min.js", [ ]); 
+	var uuid17 = wsc.loadJs("yaml.min.js", [ ]); 
+	var uuid18 = wsc.loadJs("kiwi.min.js", [ uuid2 ]); 
+	var uuid19 = wsc.loadJs("hashes.min.js", [ ]); 
+	var uuid20 = wsc.loadJs("jsfile.min.js", [ ]);
+	
+	var uuid3 = wsc.loadJs("underscore.string.min.js", [ uuid2 ]);	
+	var uuid14 = wsc.loadJs("raven.min.js", [ ]);
+	var uuid15 = wsc.loadJs("repo.min.js", [ ]); 
+	var uuid31 = wsc.loadJs("jszip.min.js", [ ]);
+	var uuid11 = wsc.loadJs("dataTables.responsive.min.js", [ uuid30 ]);  */
+	/* 
+	// large JS 
+	var uuid1 = wsc.loadJs("jquery-ui.min.js", []);
 	var uuid7 = wsc.loadJs("pqgrid.min.js", [ uuid1 ]);
 	var uuid2 = wsc.loadJs("psl.min.js", [ ]);
 	var uuid3 = wsc.loadJs("Chart.bundle.min.js", [ ]);
-	var uuid4 = wsc.loadJs("angular.min.js", []); */
-	
-	/* var uuid5 = wsc.loadJs("dojo.js", [ uuid7 ]);
+	var uuid4 = wsc.loadJs("angular.min.js", []);
+	var uuid5 = wsc.loadJs("dojo.js", [ uuid7 ]);
 	var uuid6 = wsc.loadJs("planck.min.js", []);
 	var uuid8 = wsc.loadJs("quill.min.js", []);
 	var uuid9 = wsc.loadJs("billboard.min.js", []);
-	var uuid10 = wsc.loadJs("breeze.min.js", []); */
+	var uuid10 = wsc.loadJs("breeze.min.js", []); 
+	*/
 	 
-	 
-	 
+	  
+	/* 
+	// extra large JS
 	var uuid30 = wsc.loadJs("datatables-allplugins.min.js", []);
 	var uuid33 = wsc.loadJs("pdfmake.min.js", [ uuid30 ]);
-	var uuid40 = wsc.loadJs("vfs_fonts.js", [ uuid30 ]);
-	
-	
-	/* wsc.loadCss("bootstrap-theme.min.css");	
-	wsc.loadCss("autoFill.bootstrap.min.css");
-	wsc.loadCss("buttons.bootstrap.min.css");
-	wsc.loadCss("colReorder.bootstrap.min.css");	
-	wsc.loadCss("fixedColumns.bootstrap.min.css"); */
-	
-	
-	/* 
-	wsc.loadCss("fixedHeader.bootstrap.min.css");
-	wsc.loadCss("keyTable.bootstrap.min.css");
-	wsc.loadCss("responsive.bootstrap.min.css");
-	wsc.loadCss("rowGroup.bootstrap.min.css");
-	wsc.loadCss("rowReorder.bootstrap.min.css");
-	wsc.loadCss("scroller.bootstrap.min.css");
-	wsc.loadCss("select.bootstrap.min.css"); */
+	var uuid40 = wsc.loadJs("vfs_fonts.js", [ uuid30 ]); 
+	*/
 
-	/* var uuid1 = wsc.loadJs("bootstrap.min.js");
-	
-	var uuid4 = wsc.loadJs("angular.min.js", [ uuid1 ]);
-	var uuid5 = wsc.loadJs("Instructions.js", [ uuid1, uuid2 ]);
-	var uuid6 = wsc.loadJs("Assembler.js", [ uuid5 ]);
-	var uuid7 = wsc.loadJs("Compiler.js", [ uuid6 ]);
-	//var uuid8 = wsc.loadJs("app.js", [ uuid7 ]);
-	var uuid9 = wsc.loadJs("angular-ui-router.min.js", [ uuid4 ]);
-	*/
-	
-	//wsc.loadCss("bootstrap.min.css");
-	
-	/* var uuid1 = wsc.loadJs("bootstrap.min.js")
-	var uuid30 = wsc.loadJs("jquery.dataTables.min.js", [  ]);
-	var uuid31 = wsc.loadJs("jszip.min.js", [ uuid30 ]);
-	var uuid2 = wsc.loadJs("underscore-min.js", [ ]);
-	var uuid3 = wsc.loadJs("underscore.string.min.js", [ uuid2 ]);
-	
-	var uuid4 = wsc.loadJs("dataTables.buttons.min.js", [ uuid30 ]);
-	var uuid5 = wsc.loadJs("dataTables.fixedColumns.min.js", [ uuid30 ]);
-	var uuid6 = wsc.loadJs("ef.min.js", [ ]);
-	var uuid7 = wsc.loadJs("evaporate.min.js", [ ]);
-	var uuid8 = wsc.loadJs("dropzone.min.js", [ ]); */
-	
-	/*
-	var uuid41 = wsc.loadJs("dataTables.autoFill.min.js", [ uuid30 ]);
-	var uuid17 = wsc.loadJs("dataTables.bootstrap.min.js", [ uuid30 ]);
-	var uuid18 = wsc.loadJs("dataTables.buttons.min.js", [ uuid30 ]);
-	var uuid19 = wsc.loadJs("dataTables.colReorder.min.js", [ uuid30 ]);
-	var uuid20 = wsc.loadJs("dataTables.fixedColumns.min.js", [ uuid30 ]);
-	var uuid21 = wsc.loadJs("dataTables.fixedHeader.min.js", [ uuid30 ]);
-	var uuid22 = wsc.loadJs("dataTables.keyTable.min.js", [ uuid30 ]);
-	var uuid23 = wsc.loadJs("dataTables.responsive.min.js", [ uuid30 ]);
-	var uuid24 = wsc.loadJs("dataTables.rowGroup.min.js", [ uuid30 ]);
-	var uuid25 = wsc.loadJs("dataTables.rowReorder.min.js", [ uuid30 ]);
-	var uuid26 = wsc.loadJs("dataTables.scroller.min.js", [ uuid30 ]);
-	var uuid27 = wsc.loadJs("dataTables.select.min.js", [ uuid30 ]);	 
-	
-	var uuid11 = wsc.loadJs("autoFill.bootstrap.min.js", [ uuid41 ]);		
-	var uuid13 = wsc.loadJs("buttons.bootstrap.min.js", [ uuid18 ]);
-	var uuid35 = wsc.loadJs("responsive.bootstrap.min.js", [ uuid23 ]);
-	*/
 }
 wsc.readyLoad(startLoad);
 
