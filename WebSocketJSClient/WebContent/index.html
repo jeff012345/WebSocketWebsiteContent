@@ -51,7 +51,7 @@ var start = performance.now();
 	var body = document.getElementsByTagName("body")[0];
 	var decoder = new TextDecoder("utf-8");
 	
-	var loadFiles = true;
+	var loadFiles = false;
 	
 	wsc._load = undefined
 	
@@ -272,7 +272,7 @@ function startLoad(){
 	var uuid2 = wsc.loadJs("underscore-min.js", [ ]);
 	var uuid4 = wsc.loadJs("dataTables.buttons.min.js", [ uuid30 ]);
 	var uuid5 = wsc.loadJs("dataTables.fixedColumns.min.js", [ uuid30 ]);
-	/* var uuid6 = wsc.loadJs("ef.min.js", [ ]);
+	var uuid6 = wsc.loadJs("ef.min.js", [ ]);
 	var uuid7 = wsc.loadJs("evaporate.min.js", [ ]);
 	var uuid9 = wsc.loadJs("dropzone.min.js", [ ]); 
 	var uuid10 = wsc.loadJs("jsmediatags.min.js", [ ]); 
@@ -287,7 +287,7 @@ function startLoad(){
 	var uuid14 = wsc.loadJs("raven.min.js", [ ]);
 	var uuid15 = wsc.loadJs("repo.min.js", [ ]); 
 	var uuid31 = wsc.loadJs("jszip.min.js", [ ]);
-	var uuid11 = wsc.loadJs("dataTables.responsive.min.js", [ uuid30 ]);  */
+	var uuid11 = wsc.loadJs("dataTables.responsive.min.js", [ uuid30 ]);
 	/* 
 	// large JS 
 	var uuid1 = wsc.loadJs("jquery-ui.min.js", []);
