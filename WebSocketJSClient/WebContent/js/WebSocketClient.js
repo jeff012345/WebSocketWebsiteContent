@@ -46,12 +46,20 @@
 		
 		var p = promises[msg.data.requestUUID];
 		if(p !== undefined){
-			promises.length--;
-			delete promises[msg.data.requestUUID];
 			p(msg);
 		}
 	};
 
+	wsc._removePromise = function(uuid){
+		promises.length--;
+		delete promises[uuid];
+		
+		if(waiting.length === 0 && promises.length === 0){
+			console.log("all promises finished");
+			wsc.onComplete();
+		}
+	};
+	
 	wsc._ws.onclose = function(){
 		console.log("onclose");
 		console.log(wsc._ws);
@@ -93,11 +101,9 @@
 		wsc.sendRequest(jsReq).then(bind(wsc, function(msg, dependencies){
 			var load = bind(wsc, function(content, jsUUID){
 				if(loadFiles){
-					//var script = document.createElement('script');
-					//script.innerHTML = atob(content);
-					//body.appendChild(script);
 					try{
-						eval(atob(content));
+						eval.call(window, atob(content));
+						wsc._removePromise(jsUUID);
 					}catch(e){
 						console.error(e);
 					}
@@ -124,13 +130,15 @@
 			command: "file",
 			uri: src	
 		};
-		wsc.sendRequest(req).then(function(msg){
+		wsc.sendRequest(req).then(bind(wsc, function(msg, uuid){
 			if(loadFiles){
 				var element = document.createElement('style');
 				element.innerHTML = atob(msg.content);
 				body.appendChild(element);
+				
+				wsc._removePromise(uuid);
 			}
-		});
+		}, req.requestUUID));
 	};
 	
 	function allDependenciesLoaded(dependencies){
@@ -153,11 +161,6 @@
 		if(loaded){
 			// new JS was loaded, so check all the waiting dependencies again
 			loadDependencies();
-		}
-		
-		if(waiting.length === 0 && promises.length === 0){
-			console.log("all promises finished");
-			wsc.onComplete();
 		}
 	}
 	
