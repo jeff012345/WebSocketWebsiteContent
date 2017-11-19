@@ -6,11 +6,14 @@ import java.math.BigInteger;
 
 public class ClientFrame extends Frame{
 	
-	public static ClientFrame readFrame(InputStream in, BigInteger extensionDataLength) throws IOException{
+	public static ClientFrame readFrame(int firstByte, InputStream in, BigInteger extensionDataLength) throws IOException{
 		ClientFrame f = new ClientFrame();
 		
-		byte[] inBytes = new byte[2]; 
-		in.read(inBytes);
+		byte[] inBytes = new byte[] {
+			(byte) firstByte, 
+			(byte) in.read()
+		};
+		
 		//System.out.println(Arrays.toString(inBytes));
 		f.isFin = !((inBytes[0] & 0x80) == 0); //  0x80 = 10000000  
 		f.rsv1 = !((inBytes[0] & 0x40) == 0);  //  0x40 = 01000000  eg.  11100110 & 00100000 = 00100000 == 0 ? false

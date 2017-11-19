@@ -19,14 +19,21 @@ var start = performance.now();
 <body>
 
 <script type="text/javascript">
-(function(){function a(q){return q.filter(s=>k[s]===void 0)}function b(){var q=!1;l=l.filter(s=>{return 0!==(s.dependencies=a(s.dependencies)).length||(s.load(),q=!0,!1)}),q&&b()}function f(q,s){for(var t=[],u=2;u<arguments.length;u++)t.push(arguments[u]);return function(){for(var v=[],x=0;x<arguments.length;x++)v.push(arguments[x]);v=v.concat(t),s.apply(q,v)}}function g(){var q=new Date().getTime()+performance.now(),s="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(t){var u=0|(q+16*Math.random())%16;return q=Math.floor(q/16),("x"==t?u:8|3&u).toString(16)});return s}var h={};window.wsc=h;var j={length:0},k={},l=[],m=document.getElementsByTagName("body")[0],n=new TextDecoder("utf-8"),o=!0;h._load=void 0,h._ws=new WebSocket("ws://localhost:9001"),h._ws.binaryType="arraybuffer",h._ws.onopen=function(){h._load===void 0?h._load=!0:h._load()},h.readyLoad=function(q){return!0===h._load?void q():void(h._load=q)},h.onComplete=function(){},h._ws.onmessage=function(q){if(void 0!==q.data){var s=JSON.parse(n.decode(new Uint8Array(q.data))),t=j[s.data.requestUUID];void 0!==t&&t(s)}},h._removePromise=function(q){j.length--,delete j[q],0===l.length&&0===j.length&&(console.log("all promises finished"),h.onComplete())},h._ws.onclose=function(){console.log("onclose"),console.log(h._ws)},h.sendRequest=function(q){q.requestTime=new Date().getTime();var s=JSON.stringify(q);return new Promise(f(this,function(t,u){j[q.requestUUID]=f(this,function(v,x,y){"OK"===v.status?x(v.data):y(v.message)},t,u),j.length++,this._ws.send(s)}))},h.close=function(){console.log("closing"),this._ws.close()},h.loadJs=function(q,s){s=s||[];var t=g();return h.sendRequest({requestUUID:t,command:"file",uri:q}).then(f(h,function(v,x){var y=f(h,function(z,A){try{eval.call(window,atob(z)),h._removePromise(A)}catch(B){console.error(B)}k[A]=!0},v.content,t);0===a(x).length?(y(),b()):l.push({load:y,dependencies:x})},s,t)),t},h.loadCss=function(q){var s={requestUUID:g(),command:"file",uri:q};h.sendRequest(s).then(f(h,function(t,u){var v=document.createElement("style");v.innerHTML=atob(t.content),m.appendChild(v),h._removePromise(u)},s.requestUUID))}})();
+(function(){var wsc={};window.wsc=wsc;var promises={};promises.length=0;var loaded={};var waiting=[];var body=document.getElementsByTagName("body")[0];var decoder=new TextDecoder("utf-8");var loadFiles=!1;wsc._load=undefined;wsc._ws=new WebSocket("ws://localhost:9001");wsc._ws.binaryType="arraybuffer";wsc._ws.onopen=function(){if(wsc._load===undefined){wsc._load=!0}else{wsc._load()}};wsc.readyLoad=function(fn){if(wsc._load===!0){fn();return}
+wsc._load=fn};wsc.onComplete=function(){};wsc._ws.onmessage=function(e){if(e.data===undefined)
+return;var msg=JSON.parse(decoder.decode(new Uint8Array(e.data)));var p=promises[msg.data.requestUUID];if(p!==undefined){p(msg)}};wsc._removePromise=function(uuid){promises.length--;delete promises[uuid];if(promises.length===0){console.log("all promises finished");wsc.onComplete()}};wsc._ws.onclose=function(){console.log("onclose");console.log(wsc._ws)};wsc.sendRequest=function(req){req.requestTime=(new Date()).getTime();var json=JSON.stringify(req);return new Promise(bind(this,function(resolve,reject){promises[req.requestUUID]=bind(this,function(msg,resolve,reject){if(msg.status==="OK"){resolve(msg.data)}else{reject(msg.message)}},resolve,reject);promises.length++;this._ws.send(json)}))};wsc.close=function(){console.log("closing");this._ws.close()};wsc.loadJs=function(src,dependencies){dependencies=dependencies||[];var jsUUID=generateUUID();var jsReq={requestUUID:jsUUID,command:"file",uri:src};wsc.sendRequest(jsReq).then(bind(wsc,function(msg,dependencies){var load=bind(wsc,function(content,jsUUID){wsc._removePromise(jsUUID);if(loadFiles){try{eval.call(window,atob(content))}catch(e){console.error(e)}}
+loaded[jsUUID]=!0},msg.content,jsUUID);if(allDependenciesLoaded(dependencies).length===0){load();loadDependencies()}else{waiting.push({load:load,dependencies:dependencies})}},dependencies,jsUUID),bind(wsc,function(){wsc._removePromise(jsUUID)},jsUUID));return jsUUID};wsc.loadCss=function(src){var req={requestUUID:generateUUID(),command:"file",uri:src};wsc.sendRequest(req).then(bind(wsc,function(msg,uuid){wsc._removePromise(uuid);if(loadFiles){var element=document.createElement('style');element.innerHTML=atob(msg.content);body.appendChild(element)}},req.requestUUID),bind(wsc,function(uuid){wsc._removePromise(uuid)},req.requestUUID))};function allDependenciesLoaded(dependencies){return dependencies.filter(d=>loaded[d]===undefined)}
+function loadDependencies(){var loaded=!1;waiting=waiting.filter(w=>{if((w.dependencies=allDependenciesLoaded(w.dependencies)).length===0){w.load();loaded=!0;return!1}
+return!0});if(loaded){loadDependencies()}}
+function bind(context,fn){var fnArgs=[];for(var i=2;i<arguments.length;i++){fnArgs.push(arguments[i])}
+return function(){var args=[];for(var i=0;i<arguments.length;i++){args.push(arguments[i])}
+args=args.concat(fnArgs);fn.apply(context,args)}}
+function generateUUID(){var d=new Date().getTime()+performance.now();var uuid='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){var r=(d+Math.random()*16)%16|0;d=Math.floor(d/16);return(c=='x'?r:(r&0x3|0x8)).toString(16)});return uuid}})()
 </script>
 
 <script>
 function startLoad(){
 	wsc.onComplete = function(){
-		var end = performance.now();
-		console.log("time = " + (end - start));
 		//document.write("time = " + (end - start));
 	};
 	
@@ -40,6 +47,9 @@ function startLoad(){
 	wsc.loadCss("angular-motion.min.css");
 	wsc.loadCss("animate.min.css");
 	wsc.loadCss("aurora-grid.min.css");
+	
+	var end = performance.now();
+	console.log("time = " + (end - start));
 }
 wsc.readyLoad(startLoad);
 </script>

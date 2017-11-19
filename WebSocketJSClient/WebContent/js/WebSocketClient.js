@@ -13,10 +13,10 @@
 	
 	var loadFiles = true;
 	
-	wsc._load = undefined
+	wsc._load = undefined;
 	
-	//wsc._ws = new WebSocket("ws://ec2-13-58-47-69.us-east-2.compute.amazonaws.com:9001");
-	wsc._ws = new WebSocket("ws://localhost:9001");
+	wsc._ws = new WebSocket("ws://ec2-18-216-153-172.us-east-2.compute.amazonaws.com:9001");
+	//wsc._ws = new WebSocket("ws://localhost:9001");
 	wsc._ws.binaryType = "arraybuffer";
 	
 	wsc._ws.onopen = function(){
@@ -54,7 +54,7 @@
 		promises.length--;
 		delete promises[uuid];
 		
-		if(waiting.length === 0 && promises.length === 0){
+		if(promises.length === 0){
 			console.log("all promises finished");
 			wsc.onComplete();
 		}
@@ -77,6 +77,7 @@
 					reject(msg.message);
 				}
 			}, resolve, reject);
+			
 			promises.length++;
 			this._ws.send(json);
 		}));
@@ -100,10 +101,11 @@
 		
 		wsc.sendRequest(jsReq).then(bind(wsc, function(msg, dependencies){
 			var load = bind(wsc, function(content, jsUUID){
+				wsc._removePromise(jsUUID);
+				
 				if(loadFiles){
 					try{
 						eval.call(window, atob(content));
-						wsc._removePromise(jsUUID);
 					}catch(e){
 						console.error(e);
 					}
@@ -119,7 +121,10 @@
 				waiting.push({ load: load, dependencies: dependencies });
 			}
 			
-		}, dependencies, jsUUID));
+		}, dependencies, jsUUID),
+		bind(wsc, function(){
+			wsc._removePromise(jsUUID);
+		}, jsUUID));
 		
 		return jsUUID;
 	};
@@ -131,13 +136,15 @@
 			uri: src	
 		};
 		wsc.sendRequest(req).then(bind(wsc, function(msg, uuid){
+			wsc._removePromise(uuid);
 			if(loadFiles){
 				var element = document.createElement('style');
 				element.innerHTML = atob(msg.content);
 				body.appendChild(element);
-				
-				wsc._removePromise(uuid);
 			}
+		}, req.requestUUID),
+		bind(wsc, function(uuid){
+			wsc._removePromise(uuid);
 		}, req.requestUUID));
 	};
 	

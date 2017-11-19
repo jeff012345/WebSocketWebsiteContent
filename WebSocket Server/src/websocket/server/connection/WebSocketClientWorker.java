@@ -62,6 +62,7 @@ public class WebSocketClientWorker extends Thread {
 		try {
 			InputStream is = clientSocket.getInputStream();
 			clientOutput = clientSocket.getOutputStream();
+			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			isClosed = false;
 			
@@ -85,10 +86,14 @@ public class WebSocketClientWorker extends Thread {
 					//LOG.log("Wait for inputstream ready... " + System.currentTimeMillis());
 					//Thread.sleep(100);
 					
-					if(br.ready()){
-						LOG.log("Reading Bytes...");
-						onFrameStart(is);
+					int firstByte = is.read();
+					if(firstByte == -1) {
+						keepAlive = false;
+						break;
 					}
+					
+					LOG.log("Reading Bytes...");
+					onFrameStart(firstByte, is);
 				}
 				LOG.log("client '" + this.clientKey + "' shutting down");
 			//}catch(InterruptedException e){
@@ -252,12 +257,12 @@ public class WebSocketClientWorker extends Thread {
 		LOG.log("Sent Server Handshake");
 	}
 	
-	private void onFrameStart(InputStream in) {
-		//LOG.log("Recieved Client Frame Start!");
+	private void onFrameStart(int firstByte, InputStream in) {
+		//LOG.log("Received Client Frame Start!");
 		
 		try {
 			//LOG.log("Read Stream");
-			ClientFrame f = ClientFrame.readFrame(in, BigInteger.ZERO);
+			ClientFrame f = ClientFrame.readFrame(firstByte, in, BigInteger.ZERO);
 			frameBuffer.add(f);
 			if(f.isFin()){
 				//LOG.log("frame is fin");
